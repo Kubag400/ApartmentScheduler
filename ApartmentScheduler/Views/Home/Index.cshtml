@@ -1,8 +1,21 @@
-﻿<link href="~/css/site.css" rel="stylesheet" />
+﻿
 @{
     ViewData["Title"] = "Home Page";
 }
-<div class="Test">
-    <h1 class="display-4">Do you want to schedule your homes up? <p class="text-danger">(temporary)</p></h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link href="~/css/MainMenu.css" rel="stylesheet" />
+<div class="MainContainer">
+    <div class="wrapper">
+        <div class="logo">
+            @*<img src="images/logo.jpg" alt="tu bedzie logo">*@
+        </div>
+        <ul class=nav-area>
+            <li><a href="#">Index</a></li>
+            <li><a href="#">About us</a></li>
+        </ul>
+    </div>
+    <div class="welcome-text">
+        <h1>Schedule with ease</h1>
+        <a href="#">Login</a>
+        <a href="#">Register</a>
+    </div>
 </div>
