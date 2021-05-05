@@ -28,6 +28,7 @@ namespace ApartmentScheduler
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "cannot create db");
             }
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
