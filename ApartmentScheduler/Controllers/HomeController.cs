@@ -1,4 +1,6 @@
-﻿using ApartmentScheduler.Models;
+﻿using ApartmentScheduler.Interfaces;
+using ApartmentScheduler.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,10 +14,13 @@ namespace ApartmentScheduler.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly INotyfService _notyf;
+        private readonly IDataService _data;
+        public HomeController(ILogger<HomeController> logger, INotyfService notyf, IDataService data)
         {
             _logger = logger;
+            _notyf = notyf;
+            _data = data;
         }
 
         public IActionResult Index()
@@ -27,12 +32,23 @@ namespace ApartmentScheduler.Controllers
         {
             return View();
         }
-
         [HttpGet]
         public IActionResult Register()
         {
-            User a = new User();
-            return PartialView("Register",a);
+         
+            return PartialView();
+        }
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            if(ModelState.IsValid)
+            {
+                _data.RegisterAsync(user);
+                _notyf.Success("Welcome in our service");
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View();
         }
         [HttpGet]
         public IActionResult Login()

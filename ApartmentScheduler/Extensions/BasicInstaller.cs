@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ApartmentScheduler.Interfaces;
+using ApartmentScheduler.Services;
+using AspNetCoreHero.ToastNotification;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,9 @@ namespace ApartmentScheduler.Extensions
         {
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddRazorPages();
+            services.AddScoped<IDataService, DataService>();
+            services.AddNotyf(config =>
+            { config.DurationInSeconds = 5; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
             services.AddControllersWithViews();
         }
     }
