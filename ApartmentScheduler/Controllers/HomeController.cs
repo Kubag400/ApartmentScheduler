@@ -27,9 +27,7 @@ namespace ApartmentScheduler.Controllers
         {
             return View();
         }
-<<<<<<< Updated upstream
 
-=======
         [HttpGet]
         public IActionResult Register()
         {
@@ -41,7 +39,6 @@ namespace ApartmentScheduler.Controllers
         {
             return PartialView();
         }
->>>>>>> Stashed changes
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
