@@ -1,8 +1,53 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<<<<<<< Updated upstream
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+=======
+<div class="container align-items-center text-light"
+     data-ajax="true"
+     data-ajax-method="GET"
+     data-ajax-mode="replace"
+     data-ajax-update="#viewHolder">
+
+    <div class="row align-items-center m-auto" style="padding-top:20%;">
+        <div class="col mx-auto">
+            <h1 class="display-1 font-italic">
+                Schedule with ease
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-outline-success" id="loginButton">Login</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-success" id="registerButton">Register</button>
+                    </div>
+                </div>
+            </h1>
+        </div>
+        <div class="col">
+            <div id="viewHolder" class="align-items-center justify-content-center" style="padding-left:10%">
+            </div>
+        </div>
+    </div>
+>>>>>>> Stashed changes
 </div>
+@section Scripts{
+    @*ajax*@ 
+    <script src="~/lib/jquery/jquery.unobtrusive-ajax.js"></script>
+    @*partial script*@ 
+    <script>
+        $(function () {
+            $('#registerButton').on('click', function () {
+                $('#viewHolder').load('/Home/Register');
+            });
+        });
+        $(function () {
+            $('#loginButton').on('click', function () {
+                $('#viewHolder').load('/Home/Login');
+            });
+        });
+    </script>
+}

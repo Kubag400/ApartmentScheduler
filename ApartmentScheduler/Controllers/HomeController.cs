@@ -27,7 +27,21 @@ namespace ApartmentScheduler.Controllers
         {
             return View();
         }
+<<<<<<< Updated upstream
 
+=======
+        [HttpGet]
+        public IActionResult Register()
+        {
+            User a = new User();
+            return PartialView("Register",a);
+        }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return PartialView();
+        }
+>>>>>>> Stashed changes
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
