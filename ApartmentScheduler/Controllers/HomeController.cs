@@ -39,16 +39,26 @@ namespace ApartmentScheduler.Controllers
             return PartialView();
         }
         [HttpPost]
-        public IActionResult Register(User user)
+        public IActionResult Register(string nick, string email, string password)
         {
-            if(ModelState.IsValid)
+            if (!string.IsNullOrEmpty(email)&& !string.IsNullOrEmpty(nick)&& !string.IsNullOrEmpty(password))
             {
-                _data.RegisterAsync(user);
-                _notyf.Success("Welcome in our service");
+                var result = _data.RegisterAsync(email,nick,password);
+                if (result.Result.Equals("Success"))
+                {
+                    _notyf.Success("Welcome to our service");
+                    return RedirectToAction(nameof(Index));
+                }
+                if (result.Result.Equals("exists"))
+                {
+                    _notyf.Error("User with this email address already exists");
+                    return RedirectToAction(nameof(Index));
+                }
+                _notyf.Error(result.Result);
                 return RedirectToAction(nameof(Index));
-
             }
-            return View();
+            _notyf.Error("Fill all fields!");
+            return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         public IActionResult Login()

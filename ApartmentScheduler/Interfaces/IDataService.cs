@@ -8,6 +8,6 @@ namespace ApartmentScheduler.Interfaces
 {
     public interface IDataService
     {
-        Task<bool> RegisterAsync(User user);
+        Task<string> RegisterAsync(string email, string nick, string password);
     }
 }
