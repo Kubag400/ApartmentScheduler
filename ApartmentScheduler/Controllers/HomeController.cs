@@ -65,7 +65,7 @@ namespace ApartmentScheduler.Controllers
             return PartialView();
         }
         [HttpGet]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login2(string email, string password)
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
