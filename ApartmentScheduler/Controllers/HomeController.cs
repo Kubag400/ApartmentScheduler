@@ -21,6 +21,7 @@ namespace ApartmentScheduler.Controllers
             _logger = logger;
             _notyf = notyf;
             _data = data;
+            
         }
 
         public IActionResult Index()
@@ -35,7 +36,6 @@ namespace ApartmentScheduler.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-         
             return PartialView();
         }
         [HttpPost]
@@ -51,7 +51,7 @@ namespace ApartmentScheduler.Controllers
                 }
                 if (result.Result.Equals("exists"))
                 {
-                    _notyf.Error("User with this email address already exists");
+                    _notyf.Error("User with this email or nick name already exists");
                     return RedirectToAction(nameof(Index));
                 }
                 _notyf.Error(result.Result);
@@ -60,10 +60,24 @@ namespace ApartmentScheduler.Controllers
             _notyf.Error("Fill all fields!");
             return RedirectToAction(nameof(Index));
         }
-        [HttpGet]
         public IActionResult Login()
         {
             return PartialView();
+        }
+        [HttpGet]
+        public IActionResult Login(string email, string password)
+        {
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+            {
+                var response = _data.LoginAsync(email, password);
+                if (response.Result)
+                {
+                    _notyf.Success("Login successfully");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            _notyf.Error("User or password is empty!");
+            return RedirectToAction(nameof(Index));
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

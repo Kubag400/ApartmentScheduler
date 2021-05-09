@@ -9,5 +9,6 @@ namespace ApartmentScheduler.Interfaces
     public interface IDataService
     {
         Task<string> RegisterAsync(string email, string nick, string password);
+        Task<bool> LoginAsync(string email, string password);
     }
 }

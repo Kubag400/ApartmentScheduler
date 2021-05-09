@@ -19,10 +19,26 @@ namespace ApartmentScheduler.Services
             _userManager = userManager;
         }
 
+        public async Task<bool> LoginAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return false;
+            }
+            var userHasValidPassword = await _userManager.CheckPasswordAsync(user, password);
+            if(!userHasValidPassword)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<string> RegisterAsync(string email, string nick, string password)
         {
-            var check = await _userManager.FindByEmailAsync(email);
-            if (check != null)
+            var checkEmail = await _userManager.FindByEmailAsync(email);
+            var checkNick = await _userManager.FindByNameAsync(nick);
+            if (checkEmail != null && checkNick !=null)
             {
                 return "exists";
             }
