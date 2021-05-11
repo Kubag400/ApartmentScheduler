@@ -20,7 +20,7 @@ namespace ApartmentScheduler.Data
             builder.Entity<Apartment>()
                 .HasOne(p => p.Owner);
             builder.Entity<Apartment>()
-                .HasMany(p => p.Users);
+                .HasMany(p => p.SubUsers);
 
         }
 

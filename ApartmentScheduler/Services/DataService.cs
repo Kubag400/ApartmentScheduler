@@ -2,6 +2,7 @@
 using ApartmentScheduler.Interfaces;
 using ApartmentScheduler.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +20,25 @@ namespace ApartmentScheduler.Services
             _userManager = userManager;
         }
 
-        public async Task<bool> LoginAsync(string email, string password)
+        public async Task<List<Apartment>> GetOwnedApartmentsAsync(string nick)
+        {
+            var user = await _userManager.FindByNameAsync(nick);
+            return  await _dataContext.Apartments.Where(x => x.Owner == user).ToListAsync();
+        }
+
+        public async Task<IdentityUser> LoginAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return false;
+                return null;
             }
             var userHasValidPassword = await _userManager.CheckPasswordAsync(user, password);
             if(!userHasValidPassword)
             {
-                return false;
+                return null;
             }
-            return true;
+            return user;
         }
 
         public async Task<string> RegisterAsync(string email, string nick, string password)

@@ -3,6 +3,7 @@ using ApartmentScheduler.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,16 +66,19 @@ namespace ApartmentScheduler.Controllers
             return PartialView();
         }
         [HttpGet]
-        public IActionResult Login2(string email, string password)
+        public IActionResult LoginPostShow(string email, string password)
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
                 var response = _data.LoginAsync(email, password);
-                if (response.Result)
+                if (response.Result !=null)
                 {
                     _notyf.Success("Login successfully");
-                    return RedirectToAction(nameof(Index));
+                    TempData["user"] = response.Result.UserName.ToString();
+                    return RedirectToAction("Index","Logged");
                 }
+                _notyf.Error("Incorrect email/password");
+                return RedirectToAction(nameof(Index));
             }
             _notyf.Error("User or password is empty!");
             return RedirectToAction(nameof(Index));
