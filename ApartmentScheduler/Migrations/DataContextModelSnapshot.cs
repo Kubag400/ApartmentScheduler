@@ -28,7 +28,7 @@ namespace ApartmentScheduler.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("OwnerId")
+                    b.Property<string>("OwnerId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Room")
@@ -37,44 +37,11 @@ namespace ApartmentScheduler.Migrations
                     b.Property<int>("Toilet")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Apartments");
-                });
-
-            modelBuilder.Entity("ApartmentScheduler.Models.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("ApartmentId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nick")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("isAdmin")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApartmentId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -134,6 +101,9 @@ namespace ApartmentScheduler.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("ApartmentId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -179,6 +149,8 @@ namespace ApartmentScheduler.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -271,22 +243,11 @@ namespace ApartmentScheduler.Migrations
 
             modelBuilder.Entity("ApartmentScheduler.Models.Apartment", b =>
                 {
-                    b.HasOne("ApartmentScheduler.Models.User", "Owner")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
 
-                    b.HasOne("ApartmentScheduler.Models.User", null)
-                        .WithMany("Apartments")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("ApartmentScheduler.Models.User", b =>
-                {
-                    b.HasOne("ApartmentScheduler.Models.Apartment", null)
-                        .WithMany("Users")
-                        .HasForeignKey("ApartmentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -296,6 +257,13 @@ namespace ApartmentScheduler.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.HasOne("ApartmentScheduler.Models.Apartment", null)
+                        .WithMany("SubUsers")
+                        .HasForeignKey("ApartmentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -342,12 +310,7 @@ namespace ApartmentScheduler.Migrations
 
             modelBuilder.Entity("ApartmentScheduler.Models.Apartment", b =>
                 {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ApartmentScheduler.Models.User", b =>
-                {
-                    b.Navigation("Apartments");
+                    b.Navigation("SubUsers");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,7 +16,7 @@ namespace ApartmentScheduler.Models
         public int Toilet { get; set; }
         public int Kitchen { get; set; }
         public IdentityUser Owner { get; set; }
-        public List<IdentityUser> Users { get; set; }
+        public IEnumerable<IdentityUser> SubUsers { get; set; }
 
     }
 }
