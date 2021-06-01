@@ -48,7 +48,8 @@ namespace ApartmentScheduler.Controllers
                 if (result.Result.Equals("Success"))
                 {
                     _notyf.Success("Welcome to our service");
-                    return RedirectToAction(nameof(Index));
+                    TempData["user"] = nick;
+                    return RedirectToAction("Index", "Logged");
                 }
                 if (result.Result.Equals("exists"))
                 {

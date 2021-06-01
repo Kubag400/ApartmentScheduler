@@ -23,9 +23,9 @@ namespace ApartmentScheduler.Controllers
         {
             try
             {
-                    _user = _data.GetUserAsync(TempData["user"] as string).Result;
-                    ViewBag.User = _user;
-                    return View();
+                _user = _data.GetUserAsync(TempData["user"] as string).Result;
+                ViewBag.User = _user;
+                return View();
             }
             catch
             {
@@ -36,8 +36,13 @@ namespace ApartmentScheduler.Controllers
         [HttpGet]
         public async Task<IActionResult> GetApartments()
         {
-            var ownedApartments = await _data.GetApartmentsAsync(_user.Id);
-            return PartialView(ownedApartments);
+
+            var vM = new GetApartmentsViewModel
+            {
+                Apartments = await _data.GetApartmentsAsync(_user.Id),
+                Contributions = await _data.GetUserContributionsAsync(_user.Id)
+            };
+            return PartialView(vM);
         }
         [HttpGet]
         public IActionResult Create()
@@ -46,7 +51,7 @@ namespace ApartmentScheduler.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string name,int kitchen,int toilet,int room)
+        public async Task<IActionResult> Create(string name, int kitchen, int toilet, int room)
         {
             if (ModelState.IsValid)
             {
@@ -62,8 +67,12 @@ namespace ApartmentScheduler.Controllers
                 {
                     _notyf.Success("Apartment added successfully!");
                     //return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
-                    var ownedApartments = await _data.GetApartmentsAsync(_user.Id);
-                    return PartialView("GetApartments", ownedApartments);
+                    var vM = new GetApartmentsViewModel
+                    {
+                        Apartments = await _data.GetApartmentsAsync(_user.Id),
+                        Contributions = await _data.GetUserContributionsAsync(_user.Id)
+                    };
+                    return PartialView("GetApartments", vM);
                 }
                 _notyf.Error("Something went wrong :( ");
                 return PartialView();
@@ -72,14 +81,14 @@ namespace ApartmentScheduler.Controllers
             return PartialView();
         }
 
-        public async Task<IActionResult>Delete(Apartment apartment)
+        public async Task<IActionResult> Delete(Apartment apartment)
         {
             var delete = await _data.DeleteApartmentAsync(apartment);
-            if(delete ==true)
+            if (delete == true)
             {
                 var ownedApartments = await _data.GetApartmentsAsync(_user.Id);
                 _notyf.Success("Apartment deleted successfully!");
-                return RedirectToAction(nameof(Index),TempData["user"] = _user.UserName);
+                return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
             }
             _notyf.Error("Something went wrong :( ");
             return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
@@ -101,11 +110,11 @@ namespace ApartmentScheduler.Controllers
             ViewBag.UserDetails = _user;
             return PartialView();
         }
-        public async Task<IActionResult>UpdateUserAccount(string userName,string email,string phoneNumber )
+        public async Task<IActionResult> UpdateUserAccount(string userName, string email, string phoneNumber)
         {
-            if(!string.IsNullOrEmpty(userName)&& !string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(email))
             {
-               var updatePersone= await _data.UpdateUserAsync(_user, userName, email, phoneNumber);
+                var updatePersone = await _data.UpdateUserAsync(_user, userName, email, phoneNumber);
                 if (updatePersone != null)
                 {
                     _notyf.Success("Data updated!");
@@ -114,7 +123,7 @@ namespace ApartmentScheduler.Controllers
             }
             return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
         }
-        public async Task<IActionResult>RemoveUser(string userName)
+        public async Task<IActionResult> RemoveUser(string userName)
         {
             if (!string.IsNullOrEmpty(userName) && userName == _user.UserName)
             {
@@ -126,8 +135,8 @@ namespace ApartmentScheduler.Controllers
             return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
         }
         [HttpPost]
-        public async Task<IActionResult> EditApartment(string id,string apartmentName,int kitchen,int toilet,int room)
-         {
+        public async Task<IActionResult> EditApartment(string id, string apartmentName, int kitchen, int toilet, int room)
+        {
             var update = await _data.UpdateApartment(id, apartmentName, kitchen, toilet, room);
             var ownedApartments = await _data.GetApartmentsAsync(_user.Id);
             if (update)
@@ -136,27 +145,27 @@ namespace ApartmentScheduler.Controllers
                 return PartialView("ApartmentTasks", ownedApartments);
             }
             _notyf.Error("Something went wrong, please try later :/");
-            return PartialView("ApartmentTasks",ownedApartments);
+            return PartialView("ApartmentTasks", ownedApartments);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateTask(string appartmentId,string task)
+        public async Task<IActionResult> CreateTask(string appartmentId, string task)
         {
-            var createTask= await _data.CreateTaskAsync(appartmentId, task);
+            var createTask = await _data.CreateTaskAsync(appartmentId, task);
             var currentAppartment = await _data.GetSingleApartmentAsync(appartmentId);
-            if(createTask)
+            if (createTask)
             {
                 _notyf.Success("New task!");
-                return PartialView("TaskList",currentAppartment.Jobs);
+                return PartialView("TaskList", currentAppartment.Jobs);
             }
             _notyf.Error("Something went wrong");
-            return PartialView("TaskList",currentAppartment);
+            return PartialView("TaskList", currentAppartment);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteTask(string id)
         {
             var idApart = await _data.GetApartmentByJobAsync(id);
             var deleteTask = await _data.DeleteTaskAsync(id);
-            if(deleteTask)
+            if (deleteTask)
             {
                 _notyf.Success("Removed!");
             }
@@ -168,5 +177,20 @@ namespace ApartmentScheduler.Controllers
 
             return PartialView("TaskList", currentAppartment.Jobs);
         }
+        [HttpPost]
+        public async Task<IActionResult> AddContributor(string subId, string apartmentId)
+        {
+            var ownedApartments = await _data.GetApartmentsAsync(_user.Id);
+            var result = await _data.AddContributorsAsync(subId, apartmentId);
+            if (result.Equals("Successfull!"))
+            {
+                _notyf.Success(result);
+                return PartialView("ApartmentTasks", ownedApartments);
+            }
+            _notyf.Error(result);
+            return PartialView("ApartmentTasks", ownedApartments);
+
+        }
+
     }
 }

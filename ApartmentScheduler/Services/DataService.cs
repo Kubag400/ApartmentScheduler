@@ -73,6 +73,7 @@ namespace ApartmentScheduler.Services
             var ownedApartments = await _dataContext.Apartments
                 .Include(y => y.Jobs)
                 .Include(x => x.Owner)
+                .Include(z => z.Contributors)
                 .Where(x => x.Owner.Id == ownerId).ToListAsync();
             return ownedApartments;
         }
@@ -158,7 +159,7 @@ namespace ApartmentScheduler.Services
         public async Task<string> GetApartmentByJobAsync(string jobId)
         {
             var newId = Guid.Parse(jobId);
-            var job = await _dataContext.Jobs.Include(a=>a.Apartment).Where(x => x.Id == newId).FirstAsync();
+            var job = await _dataContext.Jobs.Include(a => a.Apartment).Where(x => x.Id == newId).FirstAsync();
             return job.Apartment.Id.ToString();
         }
 
@@ -169,6 +170,45 @@ namespace ApartmentScheduler.Services
             _dataContext.Jobs.Remove(jobToDelete);
             var jobDeleted = await _dataContext.SaveChangesAsync();
             return jobDeleted > 0;
+        }
+
+        public async Task<string> AddContributorsAsync(string id, string apartmentId)
+        {
+            var userToAdd = await _userManager.FindByIdAsync(id);
+            if (userToAdd == null)
+            {
+                return "Wrong Id!";
+            }
+            var newApartmentId = Guid.Parse(apartmentId);
+            var apartment = await _dataContext.Apartments.Where(x => x.Id == newApartmentId).FirstAsync();
+            var newContributor = new Contributor
+            {
+                ContributorId = userToAdd.Id,
+                ContributorName = userToAdd.UserName
+            };
+            apartment.Contributors.Add(newContributor);
+            var subAdded = await _dataContext.SaveChangesAsync();
+            if (subAdded > 0)
+            {
+                return "Successfull!";
+            }
+            return "Method issue";
+        }
+
+        public async Task<List<Apartment>> GetUserContributionsAsync(string userId)
+        {
+            var contributions = await _dataContext.Contributors
+                .Include(x => x.Apartment)
+                .Include(x => x.Apartment.Owner)
+                .Where(x => x.ContributorId == userId)
+                .ToListAsync();
+            var apartmentList = new List<Apartment>();
+            foreach (var item in contributions)
+            {
+                var appToAdd = await _dataContext.Apartments.Where(x => x.Id == item.Apartment.Id).FirstOrDefaultAsync();
+                apartmentList.Add(appToAdd);
+            }
+            return apartmentList;
         }
     }
 }
