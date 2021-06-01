@@ -1,0 +1,139 @@
+﻿@model ApartmentScheduler.Models.Apartment
+    <link href="~/css/Form.css" rel="stylesheet" />
+<div class="container rounded font-italic" id="contentForChange">
+    @*style="background-color:#FFBA48;"*@
+    @*<form asp-action="Create" asp-controller="Logged"
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#contentForChange">
+
+            <div class="row">
+                <div class="col" style="margin-left:6%">
+                    <div class="card" style="width: 13rem;height;margin:5% 0 0 0;float:left;background-color:#FFCF44">
+                        <div class="card-header text-center font-italic">
+                            Your apartment name?
+                        </div>
+                        <input asp-for="Name" class="form-control text-center" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card" style="width: 13rem;margin:5% 0 0 2%;float:left;background-color:#FFCF44 ">
+                        <div class="card-header text-center font-italic">
+                            How many Rooms?
+                        </div>
+                        <input type="number" asp-for="Room" class="form-control text-center" />
+                        <span asp-validation-for="Room" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card" style="width: 13rem;margin:5% 0 0 2%;float:left;background-color:#FFCF44 ">
+                        <div class="card-header text-center font-italic">
+                            How many Toilets?
+                        </div>
+                        <input type="number" asp-for="Toilet" class="form-control text-center" />
+                        <span asp-validation-for="Toilet" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card" style="width: 13rem;margin:5% 0 0 2%;float:left;background-color:#FFCF44 ">
+                        <div class="card-header text-center font-italic">
+                            How many Kitchens?
+                        </div>
+                        <input type="number" asp-for="Kitchen" class="form-control text-center" />
+                        <span asp-validation-for="Kitchen" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col text-center" style="margin-top:">
+                        <div class="form-group justify-content-center">
+                            <button value="Create" class="btn" style="background-color: #FFCF44;margin-top:4%;" id="submitCreate">Add Apartment</button>
+                        </div>
+                    </div>
+                </div>
+        </form>*@
+    <div class="dbody">
+        <form asp-action="Create" asp-controller="Logged"
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#contentForChange" class="form" autocomplete="off">
+                <div id="focus"></div>
+                <h1 class="h1">Make apartment!</h1>
+                <input type="text" placeholder="Apartment Name" autocomplete="no" class="input" asp-for="Name">
+                <input type="number" half placeholder="Rooms" autocomplete="no" class="input" asp-for="Room">
+                <input type="number" half placeholder="Kitchens" autocomplete="no" class="input" asp-for="Kitchen">
+                <input type="number" placeholder="Toilets" autocomplete="no" class="input" asp-for="Toilet">
+                @*----*@
+                <div class="Subbuttons">
+                    <div class="Subcontainer">
+                        <button class="Subbtn effect04" data-sm-link-text="Go!" type="submit"><span>Create!</span></button>
+                    </div>
+                </div>
+                @*----*@
+            </form>
+    </div>
+</div>
+
+@section Scripts{
+    @*ajax*@
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/jquery.unobtrusive-ajax.js"></script>
+<script>
+    const FORM = $("form"); // set form or other element here
+    const TYPES = ["input"]; // set which elements get targeted by the focus
+    const FOCUS = $("#focus"); // focus element
+
+    // function for positioning the div
+    function position(e) {
+        // get position
+        var props = {
+            top: e.offset().top,
+            left: e.offset().left,
+            width: e.outerWidth(),
+            height: e.outerHeight(),
+            radius: parseInt(e.css("border-radius"))
+        };
+
+        // set position
+        FOCUS.css({
+            top: props.top,
+            left: props.left,
+            width: props.width,
+            height: props.height,
+            "border-radius": props.radius
+        });
+
+        FOCUS.fadeIn(200);
+    }
+
+    FORM.find(TYPES.join()).each(function (i) {
+        // when clicking an input defined in TYPES
+        $(this).focus(function () {
+            el = $(this);
+
+            // adapt size/position when resizing browser
+            $(window).resize(function () {
+                position(el);
+            });
+
+            position(el);
+        });
+    });
+
+    FORM.on("focusout", function (e) {
+        setTimeout(function () {
+            if (!e.delegateTarget.contains(document.activeElement)) {
+                FOCUS.fadeOut(200);
+            }
+        }, 0);
+    });
+
+</script>
+}
+

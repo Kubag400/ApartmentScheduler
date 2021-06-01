@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,12 +11,15 @@ namespace ApartmentScheduler.Models
     {
         [Key]
         public Guid  Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public int Room { get; set; }
+        [Required]
         public int Toilet { get; set; }
         public int Kitchen { get; set; }
-        public User Owner { get; set; }
-        public List<User> Users { get; set; }
-
+        public virtual IdentityUser Owner { get; set; }
+        public virtual IEnumerable<IdentityUser> SubUsers { get; set; }
+        public virtual List<Job> Jobs { get; set; } = new List<Job>();
     }
 }

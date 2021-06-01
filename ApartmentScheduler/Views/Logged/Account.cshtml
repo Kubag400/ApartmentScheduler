@@ -1,0 +1,50 @@
+﻿<div class="container font-italic text-white">
+    <div class="text-center font-italic">
+        <h3>@ViewBag.UserDetails.UserName</h3>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" >Profile</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="delete">Delete Account</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    <form asp-action="UpdateUserAccount">
+
+                        <label class="control-label">User Name:</label>
+                        <input type="text" value="@ViewBag.UserDetails.UserName" name="userName" class="form-control" />
+
+                        <label class="control-label">Email:</label>
+                        <input type="email" value="@ViewBag.UserDetails.Email" name="email" class="form-control" />
+
+                        <label class="control-label">Phone Number:</label>
+                        <input type="tel" value="@ViewBag.UserDetails.PhoneNumber" name="phoneNumber" placeholder="Phone number" class="form-control" pattern="[0-9]{9}" />
+                        <input type="submit" value="Edit" class="btn btn-primary" style="margin-top:3%" />
+
+                    </form>
+                    <label class="control-label" style="color:gray;font-size:small;margin-top:2rem">Your Id: @ViewBag.UserDetails.Id</label>
+                </div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                    <form asp-action="RemoveUser">
+                        <div>
+                            If you want to delete your profile insert your nick
+                            <input class="form-control" name="userName" placeholder="Here!" required minlength="@ViewBag.UserDetails.UserName.Length"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Delete" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#myList a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+</script>

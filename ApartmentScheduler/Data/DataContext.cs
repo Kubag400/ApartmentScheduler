@@ -13,18 +13,20 @@ namespace ApartmentScheduler.Data
             : base(options)
         {
         }
-        public DbSet<User> Users { get; set; }
         public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<Job> Jobs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<User>()
-                .HasMany(p => p.Apartments);
             builder.Entity<Apartment>()
                 .HasOne(p => p.Owner);
             builder.Entity<Apartment>()
-                .HasMany(p => p.Users);
+                .HasMany(p => p.SubUsers);
 
+            builder.Entity<Apartment>()
+                .HasMany(x => x.Jobs)
+                .WithOne(y => y.Apartment)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

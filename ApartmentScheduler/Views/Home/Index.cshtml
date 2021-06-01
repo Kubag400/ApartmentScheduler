@@ -12,26 +12,28 @@
         <div class="col mx-auto">
             <h1 class="display-1 font-italic">
                 Schedule with ease
-                <div class="row">
-                    <div class="col">
-                        <button class="btn btn-outline-success" id="loginButton">Login</button>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-outline-success" id="registerButton">Register</button>
-                    </div>
-                </div>
             </h1>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-outline-info" id="loginButton">Login</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-info" id="registerButton">Register</button>
+                </div>
+            </div>
+
         </div>
         <div class="col">
             <div id="viewHolder" class="align-items-center justify-content-center" style="padding-left:10%">
+                @await Html.PartialAsync("Login") 
             </div>
         </div>
     </div>
 </div>
 @section Scripts{
-    @*ajax*@ 
+    @*ajax*@
     <script src="~/lib/jquery/jquery.unobtrusive-ajax.js"></script>
-    @*partial script*@ 
+    @*partial script*@
     <script>
         $(function () {
             $('#registerButton').on('click', function () {

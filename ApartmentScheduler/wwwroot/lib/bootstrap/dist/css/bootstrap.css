@@ -5375,8 +5375,8 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item.active {
   z-index: 2;
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: black;
+  border-color: white;
 }
 
 .list-group-horizontal {
@@ -5522,7 +5522,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-primary.list-group-item-action.active {
   color: #fff;
   background-color: #004085;
-  border-color: #004085;
+  border-color: white;
 }
 
 .list-group-item-secondary {
@@ -5554,7 +5554,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-success.list-group-item-action.active {
   color: #fff;
   background-color: #155724;
-  border-color: #155724;
+  border-color: white;
 }
 
 .list-group-item-info {
@@ -5570,7 +5570,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-info.list-group-item-action.active {
   color: #fff;
   background-color: #0c5460;
-  border-color: #0c5460;
+  border-color: white;
 }
 
 .list-group-item-warning {
@@ -5586,7 +5586,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-warning.list-group-item-action.active {
   color: #fff;
   background-color: #856404;
-  border-color: #856404;
+  border-color: white;
 }
 
 .list-group-item-danger {
@@ -5602,7 +5602,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-danger.list-group-item-action.active {
   color: #fff;
   background-color: #721c24;
-  border-color: #721c24;
+  border-color: white;
 }
 
 .list-group-item-light {
@@ -5618,7 +5618,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-light.list-group-item-action.active {
   color: #fff;
   background-color: #818182;
-  border-color: #818182;
+  border-color: white;
 }
 
 .list-group-item-dark {
@@ -5634,7 +5634,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 .list-group-item-dark.list-group-item-action.active {
   color: #fff;
   background-color: #1b1e21;
-  border-color: #1b1e21;
+  border-color: white;
 }
 
 .close {

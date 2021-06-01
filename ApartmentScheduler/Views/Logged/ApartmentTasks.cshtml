@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ApartmentScheduler.Models.Apartment>
+<div class="container font-italic text-white" id="mainCointainer">
+    @if (Model.Count() > 0)
+    {
+        <div class="row">
+            <div class="col-4">
+                <div class="list-group rounded" id="list-tab" role="tablist" style="margin-left:2rem">
+                    <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" style="display:none;">Profile</a>
+
+                    @foreach (var item in Model)
+                    {
+                        <a class="list-group-item list-group-item-action rounded " style="background-color: #FF9c4f;border:1px solid #FF9c4f;margin-top:1rem" id="list-@item.Name.Replace(" ",string.Empty)-list" data-toggle="list" href="#list-@item.Name.Replace(" ",string.Empty)" role="tab" aria-controls="delete">@item.Name</a>
+                    }
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list" style="display:none">
+
+                    </div>
+                    @foreach (var element in Model)
+                    {
+                        <div class="tab-pane fade border rounded text-white text-center p-4"style="background-color:#FF9c4f" id="list-@element.Name.Replace(" ",string.Empty)" role="tabpanel" aria-labelledby="list-@element.Name.Replace(" ",string.Empty)-list">
+                            <div id="apartmentDetails" class="text-center" style="width:20rem;float:left;border-right:1px dashed white">
+                                <form asp-action="EditApartment" asp-controller="Logged"
+                                      data-ajax="true"
+                                      data-ajax-method="POST"
+                                      data-ajax-mode="replace"
+                                      data-ajax-update="#mainCointainer" class="text-center ">
+
+
+                                    
+                                    <input type="text" value="@element.Id" name="id" style="display:none" />
+                                    
+                                    <label class="control-label">Apartment Name</label>
+                                    <input type="text"  value="@element.Name" name="apartmentName" class="form-control text-center w-50 " style="background-color:#FF9B4F;margin-left:5rem"  />
+
+                                    <label class="control-label">Amount of Kitchens</label>
+                                    <input type="text" value="@element.Kitchen" name="kitchen" class="form-control text-center w-50" style="background-color:#FF9B4F;margin-left:5rem;"/>
+
+                                    <label class="control-label">Amount of Toilets</label>
+                                    <input type="text" value="@element.Toilet" name="toilet" class="form-control text-center w-50" style="background-color:#FF9B4F;margin-left:5rem"/>
+
+                                    <label class="control-label">Amount of Rooms</label>
+                                    <input type="text" value="@element.Room" name="room" class="form-control text-center w-50" style="background-color:#FF9B4F;margin-left:5rem"/>
+
+                                    <label class="control-label" style="margin-top:2rem">Owner: @element.Owner.UserName</label>
+
+                                    <input type="submit" value="Edit" class="btn btn-warning border rounded" style="float:right;width:10rem;margin:1rem 1rem 0 0" />
+                                </form>
+                            </div>
+                            <div id="taskDiv" class="text-center" style="float:left;margin-left:15%">
+                                <form asp-action="CreateTask" asp-controller="Logged"
+                                      data-ajax="true"
+                                      data-ajax-method="POST"
+                                      data-ajax-mode="replace"
+                                      data-ajax-update="#listDiv">
+
+                                    <input type="text" value="@element.Id" name="appartmentId" style="display:none" />
+                                    <label class="control-label">Create your task</label>
+                                    <input type="text" name="task" class="form-control"style="background-color: #FF9B4F;" />
+                                    <input type="submit" value="Create task" class="btn btn-warning border rounded" style="margin-top:1rem;" />
+                                </form>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div id="listDiv" style="height:6rem;overflow-y:scroll;margin-top:1rem;border-top:1px dashed white">
+                                @if (element.Jobs.Count()>0)
+                                {
+                                    @await Html.PartialAsync("TaskList", element.Jobs)
+                                }
+                                else
+                                {
+                                    <div>
+                                        Whoops... Too much free time?
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h6 class="text-center">Whoops? Did you forget to make apartment?</h6>
+    }
+</div>
+@section Scripts{
+    <script src="~/lib/jquery/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $('#myList a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+
+    </script>
+}

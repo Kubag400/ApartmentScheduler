@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container"
+     data-ajax="true"
+     data-ajax-method="GET"
+     data-ajax-mode="replace"
+     data-ajax-update="#loggedContextBox">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top" style="color:#E6675C;">
+        <a class="navbar-brand" href="#" id="welcomePage" style="color: #FF6859">Apartment Scheduler</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" id="allAparts" href="#" style="color:#FF9C4F">Apartments <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" id="createNew" style="color:#FFBA48">Add<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" id="accountBtn" style="color: #FFCF44">Account<span class="sr-only">(current)</span></a>
+                </li> 
+                @*<li class="nav-item active">
+                    <a class="nav-link" href="#" id="taskBtn" style="color: #FFCF44">Tasks<span class="sr-only">(current)</span></a>
+                </li>*@
+            </ul>
+            <div class="my-2 my-lg-0">
+                Hello @ViewBag.User.UserName
+            </div>
+        </div>
+    </nav>
+    
+    <div id="loggedContentBox">
+
+        @await Html.PartialAsync("WelcomePage")
+    </div>
+    
+</div>
+
+@section Scripts{
+    @*ajax*@
+    <script src="~/lib/jquery/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(function () {
+            $('#allAparts').on('click', function () {
+                $('#loggedContentBox').load('/Logged/GetApartments');
+            });
+        });
+        $(function () {
+            $('#createNew').on('click', function () {
+                $('#loggedContentBox').load('/Logged/Create');
+            });
+        })
+        $(function () {
+            $('#welcomePage').on('click', function () {
+                $('#loggedContentBox').load('/Logged/WelcomePage');
+            });
+        })
+        $(function () {
+            $('#accountBtn').on('click', function () {
+                $('#loggedContentBox').load('/Logged/Account');
+            });
+        })
+        $(function () {
+            $('#taskBtn').on('click', function () {
+                $('#loggedContentBox').load('/Logged/ApartmentTasks');
+            });
+        })
+    </script>
+}
