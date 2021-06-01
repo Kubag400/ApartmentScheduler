@@ -1,5 +1,56 @@
 ﻿.custom-background {
     background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url("../images/background.jpg");
+    /*  background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;*/
+    -webkit-backdrop-size: cover;
     background-size: cover;
     background-position: center center;
+    position: relative;
+}
+.custom-logo {
+    background-image: url(../images/logo.png);
+}
+
+a.classname1 {
+    background: url(../images/trash-solid.svg) no-repeat top left;
+    display: block;
+    padding-top: 10px;
+    width: 50px;
+    height: 50px;
+    text-indent: -9999px; /* hides the link text */
+}
+
+a.classname2 {
+    background: url(../images/clipboard-solid.svg) no-repeat top left;
+    display: block;
+    padding-top: 10px;
+    width: 50px;
+    height: 50px;
+    text-indent: -9999px; /* hides the link text */
+}
+
+a.classname3 {
+    background: url(../images/edit-solid.svg) no-repeat top left;
+    display: block;
+    padding-top: 10px;
+    width: 50px;
+    height: 50px;
+    text-indent: -9999px; /* hides the link text */
+}
+
+#contentBoxAparts {
+    width: 100%;
+    color: white;
+    position: relative;
+}
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
 }

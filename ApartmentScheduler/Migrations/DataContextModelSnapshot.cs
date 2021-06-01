@@ -26,6 +26,7 @@ namespace ApartmentScheduler.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OwnerId")
@@ -42,6 +43,28 @@ namespace ApartmentScheduler.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Apartments");
+                });
+
+            modelBuilder.Entity("ApartmentScheduler.Models.Job", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ApartmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDone")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Task")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
+
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -250,6 +273,16 @@ namespace ApartmentScheduler.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("ApartmentScheduler.Models.Job", b =>
+                {
+                    b.HasOne("ApartmentScheduler.Models.Apartment", "Apartment")
+                        .WithMany("Jobs")
+                        .HasForeignKey("ApartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Apartment");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -310,6 +343,8 @@ namespace ApartmentScheduler.Migrations
 
             modelBuilder.Entity("ApartmentScheduler.Models.Apartment", b =>
                 {
+                    b.Navigation("Jobs");
+
                     b.Navigation("SubUsers");
                 });
 #pragma warning restore 612, 618

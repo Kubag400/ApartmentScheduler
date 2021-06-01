@@ -1,0 +1,113 @@
+/* {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    grid-gap: 5rem;
+    padding: 5rem;
+    background: #F5F7FA;
+}
+*/
+     .card2 {
+        --background: #FFFFFF;
+        --text: black;
+        position: relative;
+        height: 12rem;
+        box-shadow: 0 0 2rem -1rem rgba(0, 0, 0, 0.05);
+    }
+
+      .card2 .multi-button {
+            z-index: 0;
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            border-radius: 100%;
+            width: 0rem;
+            height: 0rem;
+            transform: translate(-50%, -50%);
+            transition: 0.25s cubic-bezier(0.25, 0, 0, 1);
+        }
+
+            .card2 .multi-button button {
+                display: grid;
+                place-items: center;
+                position: absolute;
+                width: 2rem;
+                height: 2rem;
+                border: none;
+                border-radius: 100%;
+                background: var(--background);
+                color: var(--text);
+                transform: translate(-50%, -50%);
+                cursor: pointer;
+                transition: 0.25s cubic-bezier(0.25, 0, 0, 1);
+                box-shadow: 0 0 0rem -0.25rem var(--background);
+            }
+
+                .card2 .multi-button button:hover {
+                    background: var(--text);
+                    color: var(--background);
+                    box-shadow: 0 0 1rem -0.25rem var(--background);
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(1):nth-child(1),  .card2 .multi-button button:first-child:nth-last-child(1) ~ *:nth-child(1) {
+                    left: 25%;
+                    top: 25%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(2):nth-child(1),  .card2 .multi-button button:first-child:nth-last-child(2) ~ *:nth-child(1) {
+                    left: 37.5%;
+                    top: 18.75%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(2):nth-child(2),  .card2 .multi-button button:first-child:nth-last-child(2) ~ *:nth-child(2) {
+                    left: 18.75%;
+                    top: 37.5%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(3):nth-child(1),  .card2 .multi-button button:first-child:nth-last-child(3) ~ *:nth-child(1) {
+                    left: 50%;
+                    top: 15.625%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(3):nth-child(2),  .card2 .multi-button button:first-child:nth-last-child(3) ~ *:nth-child(2) {
+                    left: 25%;
+                    top: 25%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(3):nth-child(3),  .card2 .multi-button button:first-child:nth-last-child(3) ~ *:nth-child(3) {
+                    left: 15.625%;
+                    top: 50%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(4):nth-child(1),  .card2 .multi-button button:first-child:nth-last-child(4) ~ *:nth-child(1) {
+                    left: 62.5%;
+                    top: 18.75%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(4):nth-child(2),  .card2 .multi-button button:first-child:nth-last-child(4) ~ *:nth-child(2) {
+                    left: 37.5%;
+                    top: 18.75%;
+                }
+
+                .card2 .multi-button button:first-child:nth-last-child(4):nth-child(3),  .card2 .multi-button button:first-child:nth-last-child(4) ~ *:nth-child(3) {
+                    left: 18.75%;
+                    top: 37.5%;
+                }
+
+                 .card2 .multi-button button:first-child:nth-last-child(4):nth-child(4),  .card2 .multi-button button:first-child:nth-last-child(4) ~ *:nth-child(4) {
+                    left: 18.75%;
+                    top: 62.5%;
+                }
+
+         .card2 .container2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+            background: var(--background);
+            color: var(--text);
+        }
+
+         .card2:hover .multi-button,  .card2 .multi-button:focus-within {
+            width: 10rem;
+            height: 10rem;
+        }

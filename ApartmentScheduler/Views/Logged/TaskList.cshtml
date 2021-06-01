@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ApartmentScheduler.Models.Job>
+    <div id="contentBoxTable" >
+        <table class="table text-white">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Task)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsDone)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Task)
+                        </td>
+                        <td>
+                            <form asp-action="DeleteTask" asp-controller="Logged"
+                                  data-ajax="true"
+                                  data-ajax-method="POST"
+                                  data-ajax-mode="replace"
+                                  data-ajax-update="#contentBoxTable">
+                                <input type="text" value="@item.Id" style="display:none" name="id"/>
+                                <button class="btn btn-warning" type="submit">Delete</button>
+                            </form>
+                            @*<a class="btn btn-outline-warning">@Html.ActionLink("Delete", "DeleteTask", "Logged", new { id = item.Id })</a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
