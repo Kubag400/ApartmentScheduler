@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ApartmentScheduler.Models.Apartment>
+<link href="~/css/CardStyle.css" rel="stylesheet" />
+<link href="~/css/MyDesign.css" rel="stylesheet" />
+<div class="container"
+     data-ajax="true"
+     data-ajax-method="GET"
+     data-ajax-mode="replace"
+     data-ajax-update="#contentInAparts" id="mainToReload">
+    <div class="text-center font-italic text-white" style="margin-top:1%">
+        <h3>Manage your tasks!</h3>
+
+    </div>
+    <div class="row">
+        @{ if (@Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="card2" style="--background: #FF9c4f;
+                    --text: white;
+                    float:left;
+                    margin:5% 3% 0% 3%;
+                    width:27%;">
+                        <div class="multi-button">
+
+                            <button>@Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "classname1" })</button>
+                            @*<button id="test"><a href="#list-@item.Name.Replace(" ",string.Empty)-list"></a></button>*@
+                        </div>
+
+                        <div class="container2 text-center">
+                            <div style="padding-top:20%">
+                                <h5>House name: @Html.DisplayFor(modelItem => item.Name)</h5>
+                                <h6>Owner @Html.DisplayFor(model => item.Owner.UserName)</h6>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-white text-center">
+                    <h5 class="text-center">Whoops? It looks like you have no appartments asigned</h5>
+                    <h6>Please visit "Add" page to create one</h6>
+                </div>
+            }
+        }
+    </div>
+
+</div>
+<div class="row" style="margin-top:2%" id="partialBox">
+    @await Html.PartialAsync("ApartmentTasks");
+</div>
+
+@section Scripts{
+    @*ajax*@
+    <script src="~/lib/jquery/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(function () {
+            $('#edit').on('click', function () {
+                $('#mainToReload').load('/Logged/ApartmentTasks').delay(5000);
+            });
+        })
+    </script>
+}

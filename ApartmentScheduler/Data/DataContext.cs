@@ -14,6 +14,7 @@ namespace ApartmentScheduler.Data
         {
         }
         public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<Job> Jobs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -22,6 +23,10 @@ namespace ApartmentScheduler.Data
             builder.Entity<Apartment>()
                 .HasMany(p => p.SubUsers);
 
+            builder.Entity<Apartment>()
+                .HasMany(x => x.Jobs)
+                .WithOne(y => y.Apartment)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

@@ -3,16 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ApartmentScheduler</title>
+    <title>Apartment Scheduler</title>
+    <link rel="shortcut icon" href="~/favicon.ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/MyDesign.css" rel="stylesheet" />
+
 </head>
 <body class="custom-background">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
             <div class="container">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Apartment Scheduler</a>
+                <a class="navbar-brand custom-logo" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/2.png">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,7 +24,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-info" asp-area="" asp-controller="Home" asp-action="Signature">About</a>
+                            <a class="nav-link text-info" style="padding-left:10%" asp-area="" asp-controller="Home" asp-action="Signature">About</a>
                         </li>
                     </ul>
                     @*<partial name="_LoginPartial" />*@
@@ -36,7 +40,7 @@
 
     <footer class="footer text-muted p-0">
         <div class="container-fluid p-0">
-            &copy; 2021 - ApartmentScheduler - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Jakub Gawęda - <a asp-area="" asp-controller="Home" asp-action="Signature">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
