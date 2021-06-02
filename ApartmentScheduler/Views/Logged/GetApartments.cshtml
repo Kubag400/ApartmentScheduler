@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ApartmentScheduler.Models.Apartment>
+﻿@model ApartmentScheduler.Models.GetApartmentsViewModel
 <link href="~/css/CardStyle.css" rel="stylesheet" />
 <link href="~/css/MyDesign.css" rel="stylesheet" />
 <div class="container"
@@ -10,44 +10,79 @@
         <h3>Manage your tasks!</h3>
 
     </div>
-    <div class="row">
-        @{ if (@Model.Count() > 0)
+    @if (Model.Apartments.Count() > 0)
+    {
+        <h4 class="text-white ">You Own: </h4>
+        <div class="row text-white text-center">
+
+
+            @foreach (var item in Model.Apartments)
             {
-                @foreach (var item in Model)
-                {
-                    <div class="card2" style="--background: #FF9c4f;
+                <div class="card2" style="--background: #FF9c4f;
                     --text: white;
                     float:left;
-                    margin:5% 3% 0% 3%;
+                    margin:1% 3% 0% 3%;
                     width:27%;">
-                        <div class="multi-button">
+                    <div class="multi-button">
 
-                            <button>@Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "classname1" })</button>
-                            @*<button id="test"><a href="#list-@item.Name.Replace(" ",string.Empty)-list"></a></button>*@
-                        </div>
+                        <button>@Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "classname1" })</button>
+                        @*<button id="test"><a href="#list-@item.Name.Replace(" ",string.Empty)-list"></a></button>*@
+                    </div>
 
-                        <div class="container2 text-center">
-                            <div style="padding-top:20%">
-                                <h5>House name: @Html.DisplayFor(modelItem => item.Name)</h5>
-                                <h6>Owner @Html.DisplayFor(model => item.Owner.UserName)</h6>
-                            </div>
+                    <div class="container2 text-center">
+                        <div style="padding-top:20%">
+                            <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
+                            <hr style="border:1px dashed white" />
+                            <h6 style="font-weight:bold">Owner @Html.DisplayFor(model => item.Owner.UserName)</h6>
                         </div>
                     </div>
-                }
-            }
-            else
-            {
-                <div class="text-white text-center">
-                    <h5 class="text-center">Whoops? It looks like you have no appartments asigned</h5>
-                    <h6>Please visit "Add" page to create one</h6>
                 </div>
             }
-        }
-    </div>
 
+        </div>
+    }
+    @if (Model.Contributions != null && Model.Contributions.Count > 0)
+    {
+        <h4 class="text-white" style="margin-top:2%">Your Contributions: </h4>
+        <div class="row text-white text-center">
+            @foreach (var item in Model.Contributions)
+            {
+                <div class="card2" style="--background: #FFCF44;
+                    --text: white;
+                    float:left;
+                    margin:1% 3% 0% 3%;
+                    width:27%;">
+                    <div class="multi-button">
+                    </div>
+
+                    <div class="container2 text-center">
+                        <div style="padding-top:20%">
+                            <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
+                            <hr style="border:1px dashed white" />
+                            <h6 style="font-weight:bold">Owner @Html.DisplayFor(model => item.Owner.UserName)</h6>
+                            @foreach (var element in item.Contributors)
+                            {
+                                <form asp-action="RemoveContributor" asp-controller="Logged">
+
+                                    <input type="text" name="apartmentId" value="@item.Id" style="display:none;" />
+                                    <input type="text" class="form-control" name="subId" style="background-color: #FF9B4F;display:none" value="@element.ContributorId" />
+                                    <button type="submit" class="btn btn-danger">
+                                        Leave
+                                    </button>
+                                </form>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
 </div>
 <div class="row" style="margin-top:2%" id="partialBox">
-    @await Html.PartialAsync("ApartmentTasks");
+    @await Html.PartialAsync("ApartmentTasks", Model);
 </div>
 
 @section Scripts{

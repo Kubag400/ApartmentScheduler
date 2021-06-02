@@ -19,7 +19,7 @@ namespace ApartmentScheduler.Models
         public int Toilet { get; set; }
         public int Kitchen { get; set; }
         public virtual IdentityUser Owner { get; set; }
-        public virtual IEnumerable<IdentityUser> SubUsers { get; set; }
+        public virtual List<Contributor> Contributors { get; set; }
         public virtual List<Job> Jobs { get; set; } = new List<Job>();
     }
 }

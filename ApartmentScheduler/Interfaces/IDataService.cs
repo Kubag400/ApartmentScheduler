@@ -23,5 +23,9 @@ namespace ApartmentScheduler.Interfaces
         Task<Apartment> GetSingleApartmentAsync(string id);
         Task<string> GetApartmentByJobAsync(string jobId);
         Task<bool> DeleteTaskAsync(string id);
+        Task<string> AddContributorsAsync(string id,string apartmentId);
+        Task<List<Apartment>> GetUserContributionsAsync(string userId);
+        Task<bool> RemoveUserContributionAsync(string userId, string apartmentId);
+        
     }
 }

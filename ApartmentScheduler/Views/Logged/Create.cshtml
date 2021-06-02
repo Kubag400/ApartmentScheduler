@@ -1,62 +1,6 @@
 ﻿@model ApartmentScheduler.Models.Apartment
     <link href="~/css/Form.css" rel="stylesheet" />
 <div class="container rounded font-italic" id="contentForChange">
-    @*style="background-color:#FFBA48;"*@
-    @*<form asp-action="Create" asp-controller="Logged"
-              data-ajax="true"
-              data-ajax-method="POST"
-              data-ajax-mode="replace"
-              data-ajax-update="#contentForChange">
-
-            <div class="row">
-                <div class="col" style="margin-left:6%">
-                    <div class="card" style="width: 13rem;height;margin:5% 0 0 0;float:left;background-color:#FFCF44">
-                        <div class="card-header text-center font-italic">
-                            Your apartment name?
-                        </div>
-                        <input asp-for="Name" class="form-control text-center" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card" style="width: 13rem;margin:5% 0 0 2%;float:left;background-color:#FFCF44 ">
-                        <div class="card-header text-center font-italic">
-                            How many Rooms?
-                        </div>
-                        <input type="number" asp-for="Room" class="form-control text-center" />
-                        <span asp-validation-for="Room" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card" style="width: 13rem;margin:5% 0 0 2%;float:left;background-color:#FFCF44 ">
-                        <div class="card-header text-center font-italic">
-                            How many Toilets?
-                        </div>
-                        <input type="number" asp-for="Toilet" class="form-control text-center" />
-                        <span asp-validation-for="Toilet" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card" style="width: 13rem;margin:5% 0 0 2%;float:left;background-color:#FFCF44 ">
-                        <div class="card-header text-center font-italic">
-                            How many Kitchens?
-                        </div>
-                        <input type="number" asp-for="Kitchen" class="form-control text-center" />
-                        <span asp-validation-for="Kitchen" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-                <div class="row">
-                    <div class="col text-center" style="margin-top:">
-                        <div class="form-group justify-content-center">
-                            <button value="Create" class="btn" style="background-color: #FFCF44;margin-top:4%;" id="submitCreate">Add Apartment</button>
-                        </div>
-                    </div>
-                </div>
-        </form>*@
     <div class="dbody">
         <form asp-action="Create" asp-controller="Logged"
               data-ajax="true"
