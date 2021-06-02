@@ -181,6 +181,13 @@ namespace ApartmentScheduler.Services
             }
             var newApartmentId = Guid.Parse(apartmentId);
             var apartment = await _dataContext.Apartments.Where(x => x.Id == newApartmentId).FirstAsync();
+            foreach (var item in apartment.Contributors)
+            {
+                if (item.ContributorId == id)
+                {
+                    return "This user is already contributor!";
+                }
+            }
             var newContributor = new Contributor
             {
                 ContributorId = userToAdd.Id,
@@ -200,6 +207,7 @@ namespace ApartmentScheduler.Services
             var contributions = await _dataContext.Contributors
                 .Include(x => x.Apartment)
                 .Include(x => x.Apartment.Owner)
+                .Include(x => x.Apartment.Jobs)
                 .Where(x => x.ContributorId == userId)
                 .ToListAsync();
             var apartmentList = new List<Apartment>();
@@ -209,6 +217,15 @@ namespace ApartmentScheduler.Services
                 apartmentList.Add(appToAdd);
             }
             return apartmentList;
+
+        }
+        public async Task<bool> RemoveUserContributionAsync(string userId, string apartmentId)
+        {
+            var napartmentId = Guid.Parse(apartmentId);
+            var removeContribution = await _dataContext.Contributors.Where(x => x.ContributorId == userId && x.Apartment.Id == napartmentId).FirstAsync();
+            _dataContext.Contributors.Remove(removeContribution);
+            var removed = await _dataContext.SaveChangesAsync();
+            return removed > 0;
         }
     }
 }

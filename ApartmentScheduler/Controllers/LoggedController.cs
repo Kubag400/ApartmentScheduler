@@ -180,16 +180,38 @@ namespace ApartmentScheduler.Controllers
         [HttpPost]
         public async Task<IActionResult> AddContributor(string subId, string apartmentId)
         {
-            var ownedApartments = await _data.GetApartmentsAsync(_user.Id);
+            var vM = new GetApartmentsViewModel
+            {
+                Apartments = await _data.GetApartmentsAsync(_user.Id),
+                Contributions = await _data.GetUserContributionsAsync(_user.Id)
+            };
+            if (subId==_user.Id)
+            {
+                _notyf.Warning("You can't add yourself as contributor!");
+                return PartialView("ApartmentTasks", vM);
+            }
             var result = await _data.AddContributorsAsync(subId, apartmentId);
             if (result.Equals("Successfull!"))
             {
                 _notyf.Success(result);
-                return PartialView("ApartmentTasks", ownedApartments);
+                return PartialView("ApartmentTasks", vM);
             }
             _notyf.Error(result);
-            return PartialView("ApartmentTasks", ownedApartments);
+            return PartialView("ApartmentTasks", vM);
 
+        }
+        [HttpPost]
+        public async Task<IActionResult>RemoveContributor(string subId,string apartmentId)
+        {
+ 
+            var result =await _data.RemoveUserContributionAsync(subId, apartmentId);
+            if(result)
+            {
+                _notyf.Success("Contributor removed!");
+                return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
+            }
+            _notyf.Warning("Something went wrong");
+            return RedirectToAction(nameof(Index), TempData["user"] = _user.UserName);
         }
 
     }
