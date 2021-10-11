@@ -10,6 +10,10 @@
                     @foreach (var item in Model.Apartments)
                     {
                         <a class="list-group-item list-group-item-action rounded " style="background-color: #FF9c4f;border:1px solid #FF9c4f;margin-top:1rem" id="list-@item.Name.Replace(" ",string.Empty)-list" data-toggle="list" href="#list-@item.Name.Replace(" ",string.Empty)" role="tab" aria-controls="delete">@item.Name</a>
+                    } 
+                    @foreach (var item in Model.Contributions)
+                    {
+                        <a class="list-group-item list-group-item-action rounded " style="background-color: #FFCF44;border:1px solid #FF9c4f;margin-top:1rem" id="list-@item.Name.Replace(" ",string.Empty)-list" data-toggle="list" href="#list-@item.Name.Replace(" ",string.Empty)" role="tab" aria-controls="delete">@item.Name</a>
                     }
 
                 </div>
